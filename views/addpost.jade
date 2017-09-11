@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    include ./partials/header
+    .container
+      .row
+        .col-md-8.col-md-offset-2
+          h3.text-center Add a post
+          if errors
+            each error, i in errors
+              div.alert.alert-danger #{error.msg}       
+          form(method='POST', action='/posts/savepost' , enctype='multipart/form-data')
+            .form-group
+              label(for='name') Title:
+              |         
+              input#name.form-control(type='text', placeholder='Post title', name='title')
+            |       
+            .form-group
+              label(for='category') Category:
+              |         
+              select#category.form-control(name='category')
+                option(value='0') Select category
+                each category, i in categories
+                  option(value='#{category.name}') #{category.name}
+            |       
+            .form-group
+              label(for='author') Author:
+              |         
+              input#favoriteBook.form-control(type='text', placeholder='Author name', name='author')
+            | 
+            .form-group
+              label(for='body') Body:
+              |         
+              textarea.form-control(cols='5', rows='5', placeholder='write content here', name='body')
+            |       
+            .form-group
+              label(for='mainimage') Image:
+              |         
+              input.form-control(type='file', name='mainimage')
+            |       
+            button.btn.btn-primary(type='submit') Submit
+
+    script(src="//cdn.ckeditor.com/4.7.2/standard/ckeditor.js")
+    script
+      | CKEDITOR.replace('body');	

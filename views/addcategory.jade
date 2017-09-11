@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    include ./partials/header
+    .container
+      .row
+        .col-md-6.col-md-offset-4
+          h3.text-center Add a Category
+          if errors
+            each error, i in errors
+              div.alert.alert-danger #{error.msg}       
+          form(method='POST', action='/categories/savecategory')
+            .form-group
+              label(for='name') Title:
+              |         
+              input#name.form-control(type='text', placeholder='Category title', name='name')
+            .form-group    
+              button.btn.btn-primary(type='submit') Submit

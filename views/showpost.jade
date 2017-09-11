@@ -1,0 +1,58 @@
+extends layout
+
+block content
+    include ./partials/header 
+    article
+      .container
+        h2.section-heading.text-center #{post.title}
+        a(href='#')
+            img.mainimage.img-fluid.img-responsive(src='/uploads/#{post.image}', alt='')
+          |             
+        span.caption.text-muted
+          | Post By - #{post.author} on #{moment(post.date).format("llll")}. Category : #{post.category}
+          |             
+        p
+          !=post.body
+        hr
+        .comment-box
+          h4.text-center Leave a comment
+          .row
+            .col-md-8.col-md-offset-2
+              
+              if errors
+                each error, i in errors
+                  div.alert.alert-danger #{error.msg}       
+              form(method='POST', action='/posts/addcomment')
+                .form-group
+                  label(for='name') Name:
+                  |         
+                  input#name.form-control(type='text', placeholder='Your name', name='name')
+    
+                .form-group
+                  label(for='name') Email:
+                  |         
+                  input#name.form-control(type='email', placeholder='Your email', name='email')
+                .form-group
+                  label(for='body') Body:
+                  |         
+                  textarea.form-control(cols='5', rows='5', placeholder='write content here', name='body')
+                input(type='hidden', name='postid', value="#{post._id}")
+                .form-group    
+                  button.btn.btn-primary(type='submit') Submit  
+        hr
+        
+        if post.comments
+
+          h5 Comments :
+          each comment, i in post.comments
+            .comment
+              h5 #{comment.name}
+              p.comment-body
+                  !=comment.body   
+              span.caption
+                | on #{moment(comment.date).format('llll')} | email : #{comment.email}
+   
+            
+    script(src="//cdn.ckeditor.com/4.7.2/standard/ckeditor.js")
+    script
+      | CKEDITOR.replace('body');   

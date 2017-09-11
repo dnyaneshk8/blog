@@ -1,0 +1,27 @@
+nav#mainNav.navbar.navbar-expand-lg.navbar-light.fixed-top
+      .container
+        a.navbar-brand(href='index.html') Blog
+        |         
+        button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarResponsive', aria-controls='navbarResponsive', aria-expanded='false', aria-label='Toggle navigation')
+          | Menu
+          i.fa.fa-bars
+        |         
+        #navbarResponsive.collapse.navbar-collapse
+          ul.navbar-nav.ml-auto
+            li.nav-item
+              a.nav-link(href='/') Home
+            |             
+            li.nav-item
+              a.nav-link(href='/posts/addpost') Add post
+            |             
+            li.nav-item
+              a.nav-link(href='/categories/addcategory') Add category
+    // Page Header
+header.masthead(style="background-image: url('/images/home-bg.jpg')")
+      .container
+        .row
+          .col-lg-8.col-md-10.mx-auto
+            .site-heading
+              h1 Node Blog 
+              |               
+              span.subheading A Blog site in node js

@@ -1,0 +1,34 @@
+extends layout
+
+block content
+    include ./partials/home-header
+    .container
+      if !posts	
+       .alert.alert-info
+        strong OOps!
+        |  No record found.
+      else  	
+        .row
+        .col-lg-8.col-md-10.mx-auto
+          each post, i in posts	  	
+            .post-preview
+              a(href='/posts/show/#{post._id}')
+                h2.post-title
+                 |  #{post.title}
+              a(href='/categories/show/#{post.category}')               
+                h3.post-subtitle
+                 | #{post.category} 
+              
+              p.post-meta
+                | Posted by
+                a(href='/posts/show/#{post._id}')  #{post.author}
+                on  #{moment(post.date).format("LLLL")}
+                       
+            |            
+          hr           
+          
+          // Pager
+          .clearfix
+            a.btn.btn-secondary.float-right(href='#') Older Posts &rarr;
+    |     
+    hr
