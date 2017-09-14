@@ -10,7 +10,8 @@ var multer = require('multer');
 var upload = multer({dest: './public/uploads'});
 var mongodb = require('mongodb');
 var db = require('monk')('localhost/blog');
-
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var index = require('./routes/index');
 var users = require('./routes/users');
 var posts = require('./routes/posts');
@@ -29,8 +30,6 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Handle Sessions
 app.use(session({
@@ -38,6 +37,15 @@ app.use(session({
   saveUninitialized: true,
   resave: true
 }));
+
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Validator
 app.use(expressValidator({
@@ -69,6 +77,13 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.get('*',function(req, res, next){
+
+  res.locals.user = req.user || null;
+  next();
+
+});
+
 app.use('/', index);
 app.use('/users', users);
 app.use('/posts', posts);
@@ -84,10 +99,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  /*res.locals.isIndex = function()
-  {
-  	console.log(document.URL);
-  }	*/
+
   res.locals.isIndex = document.URL;
   // set locals, only providing error in development
   res.locals.message = err.message;

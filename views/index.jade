@@ -3,6 +3,7 @@ extends layout
 block content
     include ./partials/home-header
     .container
+      !=messages()
       if !posts	
        .alert.alert-info
         strong OOps!
@@ -23,7 +24,8 @@ block content
                 | Posted by
                 a(href='/posts/show/#{post._id}')  #{post.author}
                 on  #{moment(post.date).format("LLLL")}
-                       
+              a.btn.btn-primary(href='posts/edit/#{post._id}')
+                | Edit          
             |            
           hr           
           
